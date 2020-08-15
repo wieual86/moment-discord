@@ -23,6 +23,7 @@ client.on("message", message => {
   const userId = message.author.id;
   let response;
   if (params.dice > maxDice) response = `<@${userId}>, your dice total cannot exceed 100.`;
+  else if (params.dice <= 0) response = `<@${userId}>, you automatically fail the action.`;
   else if (params.error) response = `<@${userId}>, you typed the expression incorrectly.`;
   else response = getResult(params, userId);
   if (message.channel.type === "dm") message.author.send(response);
@@ -37,7 +38,7 @@ const getParams = message => {
 
     const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
     const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
-    const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[^\w!]+\d+)*)/);
+    const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[^\w!]+\d+)*)?/);
 
     return {
       dice: parseInt(evaluate(diceMatch[1] || 0)),
@@ -47,7 +48,6 @@ const getParams = message => {
       baseInitiative: parseInt(evaluate((initiativeMatch && initiativeMatch[1]) || 0))
     };
   } catch (error) {
-    console.log(error);
     return { error: true };
   }
 };
