@@ -16,8 +16,7 @@ client.on("ready", () => {
 client.on("message", message => {
   const params = getParams(message);
   if (!params.dice) return;
-  const response = getResult(params, message.member.user.id);
-  message.channel.send(response);
+  message.channel.send(getResult(params, message.member.user.id));
 });
 
 const getParams = message => {
