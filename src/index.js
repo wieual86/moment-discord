@@ -43,7 +43,7 @@ const getParams = message => {
     return {
       dice: parseInt(evaluate(diceMatch[1] || 0)),
       expertise: !!expertiseMatch,
-      burst: !!burstMatch ? 3 : 0,
+      burst: burstMatch ? 3 : 0,
       initiative: !!initiativeMatch,
       baseInitiative: parseInt(evaluate((initiativeMatch && initiativeMatch[1]) || 0))
     };
