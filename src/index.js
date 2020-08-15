@@ -24,19 +24,26 @@ client.on("message", message => {
 
 const getParams = message => {
   const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
-  const match = text.match(/.*\.(?:roll|r)(\d+(?:[+-]\d+)*)(!?)(initiative|i)?(\d+(?:[+-]\d+)*)?/);
-  if (!match) return {};
+  const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[+-]\d+)*)/);
+  if (!diceMatch) return {};
+
+  const expertiseMatch = text.match(/.*(expertise|e|!)/);
+  const burstMatch = text.match(/.*(burst|b)/);
+  const initiativeMatch = text.match(/.*(?:initiative|i)(\d+(?:[+-]\d+)*)/);
+
   return {
-    dice: parseInt(evaluate(match[1] || 0)),
-    expertise: !!match[2],
-    initiative: !!match[3],
-    baseInitiative: parseInt(evaluate(match[4] || 0))
+    dice: parseInt(evaluate(diceMatch[1] || 0)),
+    expertise: !!expertiseMatch,
+    burst: !!burstMatch ? 3 : 0,
+    initiative: !!initiativeMatch,
+    baseInitiative: parseInt(evaluate((initiativeMatch && initiativeMatch[1]) || 0))
   };
 };
 
 const getResult = (params, userId) => {
   const results = [];
-  for (let i = 0; i < params.dice; ++i) {
+  const total = params.dice + params.burst;
+  for (let i = 0; i < total; ++i) {
     results.push(rollDie());
     if (params.expertise) {
       while (results[results.length - 1] === 6) results.push(rollDie());
