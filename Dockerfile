@@ -15,8 +15,5 @@ RUN yarn --frozen-lockfile --production
 # Build the application
 RUN yarn build
 
-# Uses port which is used by the actual application
-EXPOSE 3000
-
 # Finally runs the application
 CMD [ "yarn", "start" ]
