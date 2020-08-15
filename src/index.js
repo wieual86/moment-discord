@@ -70,9 +70,9 @@ const getResult = (params, user) => {
   const success = results.reduce((sum, item) => (item >= 5 ? sum + 1 : sum), 0);
 
   if (!params.initiative) {
-    return `${user}, you got a total success of ${success} (${results.join(", ")}).`;
+    return `${user}, you got a total success of **${success}** (${results.join(", ")}).`;
   }
-  return `${user}, you got an initiative of ${success + params.baseInitiative} (${results.join(
+  return `${user}, you got an initiative of **${success + params.baseInitiative}** (${results.join(
     ", "
   )}; ${params.baseInitiative} base).`;
 };
