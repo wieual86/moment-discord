@@ -17,19 +17,18 @@ client.on("message", message => {
   const params = getParams(message);
   if (!params.dice) return;
   const response = getResult(params, message.member.user.id);
-  if (params.hidden) msg.reply(response);
-  else message.channel.send(response);
+  message.channel.send(response);
 });
 
 const getParams = message => {
-  const text = message.content.replace(/\s+/, "").replace(/\n+/, "").toLowerCase();
-  const match = text.match(/\.(?:roll|r)(\d+)(!?)(?:initiative|i)?(\d+)?(hidden|h)?/);
+  const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
+  const match = text.match(/.*\.(?:roll|r)(\d+)(!?)(initiative|i)?(\d+)?/);
   if (!match) return {};
   return {
-    dice: parseInt(match[1]),
+    dice: parseInt(match[1] || 0),
     expertise: !!match[2],
-    baseInitiative: parseInt(match[3]),
-    hidden: match[4]
+    initiative: !!match[3],
+    baseInitiative: parseInt(match[4] || 0)
   };
 };
 
@@ -41,8 +40,9 @@ const getResult = (params, userId) => {
       while (results[results.length - 1] === 6) results.push(rollDie());
     }
   }
+  results.sort((a, b) => b - a);
   const success = results.reduce((sum, item) => (item >= 5 ? sum + 1 : sum), 0);
-  if (!params.baseInitiative) {
+  if (!params.initiative) {
     return `<@${userId}> got a total success of ${success} (${results.join(", ")}).`;
   }
   return `<@${userId}> got an initiative of ${success + params.baseInitiative} (${results.join(
