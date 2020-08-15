@@ -20,12 +20,15 @@ client.on("ready", () => {
 client.on("message", message => {
   const params = getParams(message);
   if (!params) return;
+
   const userId = message.author.id;
   let response;
+
   if (params.dice > maxDice) response = `<@${userId}>, your dice total cannot exceed 100.`;
   else if (params.dice <= 0) response = `<@${userId}>, you automatically fail the action.`;
   else if (params.error) response = `<@${userId}>, you typed the expression incorrectly.`;
   else response = getResult(params, userId);
+
   if (message.channel.type === "dm") message.author.send(response);
   else message.channel.send(response);
 });
@@ -55,14 +58,17 @@ const getParams = message => {
 const getResult = (params, userId) => {
   const results = [];
   const total = params.dice + params.burst;
+
   for (let i = 0; i < total; ++i) {
     results.push(rollDie());
     if (params.expertise) {
       while (results[results.length - 1] === 6) results.push(rollDie());
     }
   }
+
   results.sort((a, b) => b - a);
   const success = results.reduce((sum, item) => (item >= 5 ? sum + 1 : sum), 0);
+
   if (!params.initiative) {
     return `<@${userId}> got a total success of ${success} (${results.join(", ")}).`;
   }
