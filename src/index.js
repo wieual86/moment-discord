@@ -23,21 +23,26 @@ client.on("message", message => {
 });
 
 const getParams = message => {
-  const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
-  const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[\*/\^+-]\d+)*)/);
-  if (!diceMatch) return {};
+  try {
+    const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
+    const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[\*/\^+-]\d+)*)/);
+    if (!diceMatch) return {};
 
-  const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
-  const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
-  const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[\*/\^+-]\d+)*)/);
+    const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
+    const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
+    const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[\*/\^+-]\d+)*)/);
 
-  return {
-    dice: parseInt(evaluate(diceMatch[1] || 0)),
-    expertise: !!expertiseMatch,
-    burst: !!burstMatch ? 3 : 0,
-    initiative: !!initiativeMatch,
-    baseInitiative: parseInt(evaluate((initiativeMatch && initiativeMatch[1]) || 0))
-  };
+    return {
+      dice: parseInt(evaluate(diceMatch[1] || 0)),
+      expertise: !!expertiseMatch,
+      burst: !!burstMatch ? 3 : 0,
+      initiative: !!initiativeMatch,
+      baseInitiative: parseInt(evaluate((initiativeMatch && initiativeMatch[1]) || 0))
+    };
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 };
 
 const getResult = (params, userId) => {
