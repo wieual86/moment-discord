@@ -36,12 +36,14 @@ client.on("message", message => {
 const getParams = message => {
   try {
     const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
-    const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[^\w!]+\d+)*)/);
+    const diceMatch = text.match(/.*\.(?:roll|r)([^\w!]*\d+(?:[^\w!]+\d+)*[^\w!]*)/);
     if (!diceMatch) return null;
 
     const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
     const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
-    const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[^\w!]+\d+)*)?/);
+    const initiativeMatch = text.match(
+      /.*\.(?:roll|r).*(?:initiative|i)([^\w!]*\d+(?:[^\w!]+\d+)*[^\w!]*)?/
+    );
 
     return {
       dice: parseInt(evaluate(diceMatch[1] || 0)),
