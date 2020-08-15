@@ -21,13 +21,13 @@ client.on("message", message => {
   const params = getParams(message);
   if (!params) return;
 
-  const userId = message.author.id;
+  const user = `<@${message.author.id}>`;
   let response;
 
-  if (params.dice > maxDice) response = `<@${userId}>, your dice total cannot exceed ${maxDice}.`;
-  else if (params.dice <= 0) response = `<@${userId}>, you automatically fail the action.`;
-  else if (params.error) response = `<@${userId}>, you typed the expression incorrectly.`;
-  else response = getResult(params, userId);
+  if (params.dice > maxDice) response = `${user}, your dice total cannot exceed ${maxDice}.`;
+  else if (params.dice <= 0) response = `${user}, you automatically fail the action.`;
+  else if (params.error) response = `${user}, you typed the expression incorrectly.`;
+  else response = getResult(params, user);
 
   if (message.channel.type === "dm") message.author.send(response);
   else message.channel.send(response);
@@ -56,7 +56,7 @@ const getParams = message => {
   }
 };
 
-const getResult = (params, userId) => {
+const getResult = (params, user) => {
   const results = [];
 
   for (let i = 0; i < params.dice; ++i) {
@@ -70,11 +70,11 @@ const getResult = (params, userId) => {
   const success = results.reduce((sum, item) => (item >= 5 ? sum + 1 : sum), 0);
 
   if (!params.initiative) {
-    return `<@${userId}> got a total success of ${success} (${results.join(", ")}).`;
+    return `${user} got a total success of ${success} (${results.join(", ")}).`;
   }
-  return `<@${userId}> got an initiative of ${success + params.baseInitiative} (${results.join(
-    ", "
-  )}; ${params.baseInitiative} base).`;
+  return `${user} got an initiative of ${success + params.baseInitiative} (${results.join(", ")}; ${
+    params.baseInitiative
+  } base).`;
 };
 
 const rollDie = () => 1 + randomInt(0, 6);
