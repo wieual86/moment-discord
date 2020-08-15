@@ -25,7 +25,7 @@ client.on("message", message => {
   let response;
 
   if (params.dice > maxDice) response = `${user}, your dice total cannot exceed ${maxDice}.`;
-  else if (params.dice <= 0) response = `${user}, you automatically fail the action.`;
+  else if (params.dice <= 0) response = `${user}, your character automatically fails the action.`;
   else if (params.error) response = `${user}, you typed the expression incorrectly.`;
   else response = getResult(params, user);
 
@@ -70,11 +70,11 @@ const getResult = (params, user) => {
   const success = results.reduce((sum, item) => (item >= 5 ? sum + 1 : sum), 0);
 
   if (!params.initiative) {
-    return `${user} got a total success of ${success} (${results.join(", ")}).`;
+    return `${user}, you got a total success of ${success} (${results.join(", ")}).`;
   }
-  return `${user} got an initiative of ${success + params.baseInitiative} (${results.join(", ")}; ${
-    params.baseInitiative
-  } base).`;
+  return `${user}, you got an initiative of ${success + params.baseInitiative} (${results.join(
+    ", "
+  )}; ${params.baseInitiative} base).`;
 };
 
 const rollDie = () => 1 + randomInt(0, 6);
