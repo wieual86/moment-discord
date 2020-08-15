@@ -5,24 +5,49 @@ import Discord from "discord.js";
 config();
 
 // start up bot
-const bot = new Discord.Client();
-bot.login(process.env.TOKEN);
+const client = new Discord.Client();
+client.login(process.env.TOKEN);
 
-bot.on("ready", () => {
-  console.info(`Logged in as ${bot.user.tag}.`);
+client.on("ready", () => {
+  console.info(`Logged in as ${client.user.tag}.`);
 });
 
 // handle messages
-bot.on("message", msg => {
-  if (msg.content === "ping") {
-    msg.reply("pong");
-    msg.channel.send("pong");
-  } else if (msg.content.startsWith("!kick")) {
-    if (msg.mentions.users.size) {
-      const taggedUser = msg.mentions.users.first();
-      msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
-    } else {
-      msg.reply("Please tag a valid user!");
+client.on("message", message => {
+  const params = getParams(message);
+  if (!params.dice) return;
+  const response = getResult(params, message.member.user.id);
+  if (params.hidden) msg.reply(response);
+  else message.channel.send(response);
+});
+
+const getParams = message => {
+  const text = message.content.replace(/\s+/, "").replace(/\n+/, "").toLowerCase();
+  const match = text.match(/\.(?:roll|r)(\d+)(!?)(?:initiative|i)?(\d+)?(hidden|h)?/);
+  if (!match) return {};
+  return {
+    dice: parseInt(match[1]),
+    expertise: !!match[2],
+    baseInitiative: parseInt(match[3]),
+    hidden: match[4]
+  };
+};
+
+const getResult = (params, userId) => {
+  const results = [];
+  for (let i = 0; i < params.dice; ++i) {
+    results.push(rollDie());
+    if (params.expertise) {
+      while (results[results.length - 1] === 6) results.push(rollDie());
     }
   }
-});
+  const success = results.reduce((sum, item) => (item >= 5 ? sum + 1 : sum), 0);
+  if (!params.baseInitiative) {
+    return `<@${userId}> got a total success of ${success} (${results.join(", ")}).`;
+  }
+  return `<@${userId}> got an initiative of ${success + params.baseInitiative} (${results.join(
+    ", "
+  )}; +${params.baseInitiative} base).`;
+};
+
+const rollDie = () => Math.floor(1 + 6 * Math.random());
