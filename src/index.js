@@ -24,7 +24,7 @@ client.on("message", message => {
   const userId = message.author.id;
   let response;
 
-  if (params.dice > maxDice) response = `<@${userId}>, your dice total cannot exceed 100.`;
+  if (params.dice > maxDice) response = `<@${userId}>, your dice total cannot exceed ${maxDice}.`;
   else if (params.dice <= 0) response = `<@${userId}>, you automatically fail the action.`;
   else if (params.error) response = `<@${userId}>, you typed the expression incorrectly.`;
   else response = getResult(params, userId);
