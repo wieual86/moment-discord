@@ -46,9 +46,8 @@ const getParams = message => {
     );
 
     return {
-      dice: parseInt(evaluate(diceMatch[1] || 0)),
+      dice: parseInt(evaluate(diceMatch[1] || 0)) + (burstMatch ? 3 : 0),
       expertise: !!expertiseMatch,
-      burst: burstMatch ? 3 : 0,
       initiative: !!initiativeMatch,
       baseInitiative: parseInt(evaluate((initiativeMatch && initiativeMatch[1]) || 0))
     };
@@ -59,9 +58,8 @@ const getParams = message => {
 
 const getResult = (params, userId) => {
   const results = [];
-  const total = params.dice + params.burst;
 
-  for (let i = 0; i < total; ++i) {
+  for (let i = 0; i < params.dice; ++i) {
     results.push(rollDie());
     if (params.expertise) {
       while (results[results.length - 1] === 6) results.push(rollDie());
