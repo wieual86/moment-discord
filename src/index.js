@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 import Discord from "discord.js";
+import { evaluate, randomInt } from "mathjs";
 
 // Get env
 config();
@@ -23,13 +24,13 @@ client.on("message", message => {
 
 const getParams = message => {
   const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
-  const match = text.match(/.*\.(?:roll|r)(\d+)(!?)(initiative|i)?(\d+)?/);
+  const match = text.match(/.*\.(?:roll|r)(\d+(?:[+-]\d+)*)(!?)(initiative|i)?(\d+(?:[+-]\d+)*)?/);
   if (!match) return {};
   return {
-    dice: parseInt(match[1] || 0),
+    dice: parseInt(evaluate(match[1] || 0)),
     expertise: !!match[2],
     initiative: !!match[3],
-    baseInitiative: parseInt(match[4] || 0)
+    baseInitiative: parseInt(evaluate(match[4] || 0))
   };
 };
 
@@ -51,4 +52,4 @@ const getResult = (params, userId) => {
   )}; +${params.baseInitiative} base).`;
 };
 
-const rollDie = () => Math.floor(1 + 6 * Math.random());
+const rollDie = () => 1 + randomInt(0, 6);
