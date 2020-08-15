@@ -25,12 +25,12 @@ client.on("message", message => {
 const getParams = message => {
   try {
     const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
-    const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[\*/\^+-]\d+)*)/);
+    const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[^\w!]+\d+)*)/);
     if (!diceMatch) return {};
 
     const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
     const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
-    const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[\*/\^+-]\d+)*)/);
+    const initiativeMatch = text.match(/.*\.(?:roll|r).*(?:initiative|i)(\d+(?:[^\w!]+\d+)*)/);
 
     return {
       dice: parseInt(evaluate(diceMatch[1] || 0)),
