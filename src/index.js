@@ -2,6 +2,9 @@ import { config } from "dotenv";
 import Discord from "discord.js";
 import { evaluate, randomInt } from "mathjs";
 
+// set up restrictions
+const maxDice = 100;
+
 // Get env
 config();
 
@@ -16,8 +19,12 @@ client.on("ready", () => {
 // handle messages
 client.on("message", message => {
   const params = getParams(message);
-  if (!params.dice) return;
-  const response = getResult(params, message.author.id);
+  if (!params) return;
+  const userId = message.author.id;
+  let response;
+  if (params.dice > maxDice) response = `<@${userId}>, your dice total cannot exceed 100.`;
+  else if (params.error) response = `<@${userId}>, you typed the expression incorrectly.`;
+  else response = getResult(params, userId);
   if (message.channel.type === "dm") message.author.send(response);
   else message.channel.send(response);
 });
@@ -26,7 +33,7 @@ const getParams = message => {
   try {
     const text = message.content.replace(/\s+/g, "").replace(/\n+/g, "").toLowerCase();
     const diceMatch = text.match(/.*\.(?:roll|r)(\d+(?:[^\w!]+\d+)*)/);
-    if (!diceMatch) return {};
+    if (!diceMatch) return null;
 
     const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
     const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
@@ -41,7 +48,7 @@ const getParams = message => {
     };
   } catch (error) {
     console.log(error);
-    return {};
+    return { error: true };
   }
 };
 
