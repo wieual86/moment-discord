@@ -16,7 +16,9 @@ client.on("ready", () => {
 client.on("message", message => {
   const params = getParams(message);
   if (!params.dice) return;
-  message.channel.send(getResult(params, message.member.user.id));
+  const response = getResult(params, message.author.id);
+  if (message.channel.type === "dm") message.author.send(response);
+  else message.channel.send(response);
 });
 
 const getParams = message => {
