@@ -74,7 +74,7 @@ const getResult = (params, userId) => {
   }
   return `<@${userId}> got an initiative of ${success + params.baseInitiative} (${results.join(
     ", "
-  )}; +${params.baseInitiative} base).`;
+  )}; ${params.baseInitiative} base).`;
 };
 
 const rollDie = () => 1 + randomInt(0, 6);
