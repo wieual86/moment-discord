@@ -4,7 +4,7 @@ A discord bot for moment
 
 ## usage
 
-The quickest way is to just build and run it with docker. Alternatively, you can build the application using `yarn install` and either `yarn dev` for dev mode or `yarn build && yarn start` for production mode.
+The quickest way is to just build and run it with docker. Alternatively, you can build the application using `yarn install` and either `yarn dev` for dev mode or `yarn build && yarn start` for production mode. You'll need to acquire your own bot token from (https://www.writebots.com/discord-bot-token/#:~:text=A%20Discord%20Bot%20Token%20is,generate%20a%20Discord%20Bot%20Token.)[Discord] for it to work.
 
 ## syntax
 
