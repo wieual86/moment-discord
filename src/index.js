@@ -39,7 +39,7 @@ const getParams = message => {
     const diceMatch = text.match(/.*\.(?:roll|r)([^\w!]*\d+(?:[^\w!]+\d+)*[^\w!]*)/);
     if (!diceMatch) return null;
 
-    const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|e|!)/);
+    const expertiseMatch = text.match(/.*\.(?:roll|r).*(expertise|!)/);
     const burstMatch = text.match(/.*\.(?:roll|r).*(burst|b)/);
     const initiativeMatch = text.match(
       /.*\.(?:roll|r).*(?:initiative|i)([^\w!]*\d+(?:[^\w!]+\d+)*[^\w!]*)?/
