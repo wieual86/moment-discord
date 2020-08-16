@@ -24,9 +24,9 @@ client.on("message", message => {
   const user = `<@${message.author.id}>`;
   let response;
 
-  if (params.dice > maxDice) response = `${user}, your dice total cannot exceed ${maxDice}.`;
+  if (params.dice > maxDice) response = `${user}, the dice total cannot exceed ${maxDice}.`;
   else if (params.dice <= 0) response = `${user}, your character automatically fails the action.`;
-  else if (params.error) response = `${user}, you typed the expression incorrectly.`;
+  else if (params.error) response = `${user}, your expression could not be processed.`;
   else response = getResult(params, user);
 
   if (message.channel.type === "dm") message.author.send(response);
