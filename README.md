@@ -14,4 +14,6 @@ The bot will respond to use of `.roll [number of dice]` or `.r [number of dice]`
 - `expertise`, `e`, or `!` adds an extra die for every 6 rolled.
 - `initiative [base intiative]` or `i [base intiative]` displays the total initiative result.
 
-The bot ignores casing, spacing, and line breaks, so feel free to get creative.
+You can also use math to define either number and let the bot handle all your modifiers. For example, if your character is resisting an influence that goes against one of their Passions and favors two others and you want to burst, you can write `.r6+3-5b`.
+
+The commands can be added in any order and the bot ignores casing, spacing, and line breaks. So feel free to get creative.
