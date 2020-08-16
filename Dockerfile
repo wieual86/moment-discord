@@ -1,9 +1,7 @@
-# Docker Image which is used as foundation to create
-# a custom Docker Image with this Dockerfile
+# Base Docker image
 FROM node:14-alpine
 
-# A directory within the virtualized Docker environment
-# Becomes more relevant when using Docker Compose later
+# Set up work directory
 WORKDIR /usr/src/app
 
 # Copies everything over to Docker environment
