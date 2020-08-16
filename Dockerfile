@@ -4,14 +4,14 @@ FROM node:14-alpine
 # Set up work directory
 WORKDIR /usr/src/app
 
-# Copies everything over to Docker environment
+# Copy to Docker
 COPY . .
 
-# Installs all node packages
+# Install
 RUN yarn --frozen-lockfile --production
 
-# Build the application
+# Build
 RUN yarn build
 
-# Finally runs the application
+# Run
 CMD [ "yarn", "start" ]
