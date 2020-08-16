@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn babel-node src",
-    "build": "yarn babel src --out-dir build",
+    "build": "yarn babel src --out-dir build --ignore src/**/*.spec.js",
     "start": "node build",
     "test": "jest --coverage"
   },
