@@ -10,12 +10,12 @@ You'll need to acquire your own [bot token](https://www.writebots.com/discord-bo
 
 ## syntax
 
-The bot will respond to use of `.roll [number of dice]` or `.r [number of dice]` in your text and give a moment styled result. You can also follow the number with these commands:
+The bot will respond to `.roll [number of dice]` or `.r [number of dice]` anywhere in your text and give a moment styled result. You can also add any of these commands to the end:
 
 - `burst` or `b` adds the +3 dice from a burst.
 - `expertise`, `e`, or `!` adds an extra die for every 6 rolled.
 - `initiative [base intiative]` or `i [base intiative]` displays the total initiative result.
 
-You can also use math to define either number and let the bot handle all your modifiers. For example, if your character is resisting an influence that goes against one of their Passions and favors two others and you want to burst, you can write `.r6+3-5b`.
+You can use math to define either number and let the bot handle all your modifiers. For example, if your character is resisting an influence that goes against one of their Passions and favors two others and you want to burst, you can write `.r6+3-5b`.
 
-The commands can be added in any order and the bot ignores casing, spacing, and line breaks. So feel free to get creative.
+The extra commands can be added in any order and the bot ignores casing, spacing, and line breaks. So feel free to get creative.
