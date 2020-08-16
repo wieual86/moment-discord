@@ -10,7 +10,7 @@ You'll need to acquire your own [bot token](https://www.writebots.com/discord-bo
 
 ## syntax
 
-The bot will respond to use of `.roll [number of dice]` or `.r [number of dice]` in your text and give a moment system styled result. You can also follow the number with these commands:
+The bot will respond to use of `.roll [number of dice]` or `.r [number of dice]` in your text and give a moment styled result. You can also follow the number with these commands:
 
 - `burst` or `b` adds the +3 dice from a burst.
 - `expertise`, `e`, or `!` adds an extra die for every 6 rolled.
