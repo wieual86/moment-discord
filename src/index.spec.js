@@ -36,6 +36,11 @@ describe("index", () => {
     channel: { type: dm ? "dm" : "other", send: jest.fn() }
   });
 
+  const diceResult = response => ({
+    success: parseInt(response.match(successRegex)[1]),
+    dice: response.match(diceRegex)[1].split(", ")
+  });
+
   beforeEach(() => {
     randomInt.mockReset();
     randomInt.mockReturnValue(3).mockReturnValueOnce(5).mockReturnValueOnce(4);
@@ -58,8 +63,7 @@ describe("index", () => {
     messageFunction(message);
 
     const response = message.channel.send.mock.calls[0][0];
-    const success = parseInt(response.match(successRegex)[1]);
-    const dice = response.match(diceRegex)[1].split(", ");
+    const { success, dice } = diceResult(response);
 
     expect(success).toEqual(2);
     expect(dice.length).toEqual(rollCount);
@@ -71,8 +75,7 @@ describe("index", () => {
     messageFunction(message);
 
     const response = message.channel.send.mock.calls[0][0];
-    const success = parseInt(response.match(successRegex)[1]);
-    const dice = response.match(diceRegex)[1].split(", ");
+    const { success, dice } = diceResult(response);
 
     expect(success).toEqual(2);
     expect(dice.length).toEqual(rollCount + 3);
@@ -84,8 +87,7 @@ describe("index", () => {
     messageFunction(message);
 
     const response = message.channel.send.mock.calls[0][0];
-    const success = parseInt(response.match(successRegex)[1]);
-    const dice = response.match(diceRegex)[1].split(", ");
+    const { success, dice } = diceResult(response);
 
     expect(success).toEqual(2);
     expect(dice.length).toEqual(rollCount + 1);
@@ -98,8 +100,7 @@ describe("index", () => {
     messageFunction(message);
 
     const response = message.channel.send.mock.calls[0][0];
-    const success = parseInt(response.match(successRegex)[1]);
-    const dice = response.match(diceRegex)[1].split(", ");
+    const { success, dice } = diceResult(response);
 
     expect(success).toEqual(2 + baseInitiative);
     expect(dice.length).toEqual(rollCount);
@@ -113,8 +114,7 @@ describe("index", () => {
     messageFunction(message);
 
     const response = message.author.send.mock.calls[0][0];
-    const success = parseInt(response.match(successRegex)[1]);
-    const dice = response.match(diceRegex)[1].split(", ");
+    const { success, dice } = diceResult(response);
 
     expect(success).toEqual(2);
     expect(dice.length).toEqual(rollCount);
