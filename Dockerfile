@@ -13,5 +13,8 @@ RUN yarn --frozen-lockfile --production
 # Build
 RUN yarn build
 
+# Delete src
+RUN rm -r ./src
+
 # Run
 CMD [ "yarn", "start" ]
